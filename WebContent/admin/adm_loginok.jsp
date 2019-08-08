@@ -33,10 +33,10 @@
 		session.setAttribute("login_password", pass);
 		session.setAttribute("login_nickname",mem.getNickname());	
 		if(mem.getRate()==1) session.setAttribute("rate", "admin");
-		else if(mem.getRate()==2) session.setAttribute("rate", "regular"); 
+		else session.setAttribute("rate", "regular"); 
 		
 %>
-<script>
+<script>	
 	location.href="?auto_login=<%=autoLogin%>&id=<%=id%>";
 </script>
 <%

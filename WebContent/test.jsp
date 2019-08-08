@@ -2,14 +2,37 @@
 <%@page import="Item.MemberItem"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+	<script>
+	var deleteCookie = function(name) {
+		document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+		}
+</script>
 <%
-Cookie[] cookies = request.getCookies();
+//쿠키 id값 확인
+Cookie cookies[] = request.getCookies();
+
+if(cookies!=null){//왜 한번더 삭제해줘야되는가????
+	for(int i=0; i < cookies.length; i++){
+		if(cookies[i].getName().equals("id")){
+			cookies[i].setMaxAge(0);
+			%>
+			<script>
+			deleteCookie("id");
+			</script>
+			<%
+			response.addCookie(cookies[i]);
+			System.out.println("id 쿠키 삭제");
+		}
+	}
+}
+
 if(cookies!=null){
 	for(Cookie cookie : cookies){
 	if(cookie.getName().equals("id")){
-			session.setAttribute("login_id",cookie.getValue());
+			session.setAttribute("login_id",cookie.getValue());//id세션
 			MemberItem mem = MemberDao.getRecordOne(cookie.getValue());
+			if(mem.getRate()==1) session.setAttribute("rate", "admin");//등급 세션
+			else session.setAttribute("rate", "regular");
 		}
 	}
 }

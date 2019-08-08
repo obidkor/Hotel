@@ -1,30 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<script>
+	var deleteCookie = function(name) {
+		document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+		}
+</script>
 <%
 	String contentPage = request.getParameter("contentPage");
-	if (contentPage == null) {
-		contentPage = "main.jsp";
-	}
+	
 	String auto = request.getParameter("auto_login");//자동로그인 파라미터
 	String id = request.getParameter("id");
 	if(auto!=null&&id!=null){
 		if(auto.equals("yes")){//자동로그인 파라미터 yes???
 		//쿠키 생성
 			Cookie cookie = new Cookie("id",request.getParameter("id"));
-			cookie.setMaxAge(60*60*24*1);
+			cookie.setMaxAge(60*60*24*1); //쿠키보관 하루
 			response.addCookie(cookie);
+			System.out.println("id 쿠키생성");
 		}else if(auto.equals("no")){//no이면??
 			//쿠키삭제
 			Cookie[] cookies = request.getCookies();
 			if(cookies!=null){
-				for(Cookie cookie : cookies){
-					if(cookie.getName().equals("id")){
-						cookie.setMaxAge(0);
-						response.addCookie(cookie);
+				for(int i=0; i < cookies.length; i++){
+					if(cookies[i].getName().equals("id")){
+						cookies[i].setMaxAge(0);
+						%>
+						<script>
+						deleteCookie("id");
+						</script>
+						<%
+						response.addCookie(cookies[i]);
+						System.out.println("id 쿠키 삭제");
 					}
 				}
 			}
+
 		}
+	}
+	
+	if (contentPage == null) {
+		contentPage = "main.jsp";
 	}
 %>
 <html>
