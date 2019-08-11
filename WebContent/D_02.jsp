@@ -18,6 +18,25 @@ String sessionok = (String)session.getAttribute("login_id");
 %>
 
 <script>
+function checkNumber()
+{
+ var objEv = event.srcElement;
+ var num ="{}[]()<>?_|~`!@#$%^&*+\"'\\/ ";    //입력을 막을 특수문자 기재.
+ event.returnValue = true;
+  
+ for (var i=0;i<objEv.value.length;i++)
+ {
+ if(-1 != num.indexOf(objEv.value.charAt(i)))
+ event.returnValue = false;
+ }
+  
+ if (!event.returnValue)
+ {
+  alert("특수문자는 입력하실 수 없습니다.");
+  objEv.value="";
+ }
+}
+
 $(document).ready(function(){
     $("#paypal").change(function(){
         if($("#paypal").is(":checked")){
@@ -127,11 +146,11 @@ $(document).ready(function(){
     </div>
     <div class="col-md-8 order-md-1">
       <h4 class="mb-3">Billing address</h4>
-      <form class="needs-validation"  method="post" action="?contentPage=D_02write.jsp" novalidate>
+      <form class="needs-validation"  method="post" action="?contentPage=D_02write.jsp"  novalidate>
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="firstName">Name<span class="text-muted">(Required)</span></label>
-            <input type="text" class="form-control" id="firstName" name="name" placeholder="이름" maxlength="20" required>
+            <input type="text" class="form-control" id="firstName" name="name" placeholder="이름" maxlength="20" onkeyup="checkNumber();" required>
             <div class="invalid-feedback">
               성함을 입력하셔야 합니다.
             </div>
@@ -144,7 +163,7 @@ $(document).ready(function(){
         
         <div class="mb-3">
           <label for="email">Phone <span class="text-muted">(Required)</span></label>
-          <input type="text" class="form-control" id="phone" name="phone" placeholder="연락처" maxlength="20" required>
+          <input type="text" class="form-control" id="phone" name="phone" placeholder="연락처" maxlength="20" onkeyup="checkNumber();" required>
           <div class="invalid-feedback">	
             연락처를 적어주세요.
           </div>
@@ -152,7 +171,7 @@ $(document).ready(function(){
 
         <div class="mb-3">
           <label for="address">Address<span class="text-muted">(Required)</span></label>
-          <input type="text" class="form-control" id="address" name="address" placeholder="주소" maxlength="100" required>
+          <input type="text" class="form-control" id="address" name="address" placeholder="주소" onkeyup="checkNumber();" maxlength="100" required>
           <div class="invalid-feedback">
             주소를 적어주세요.
           </div>
@@ -161,12 +180,12 @@ $(document).ready(function(){
         <div class="row">
           <div class="col-md-3 mb-3">
             <label for="zip">Zip<span class="text-muted">(Optional)</span></label>
-            <input type="text" class="form-control" id="zip" placeholder="우편번호">
+            <input type="text" class="form-control" id="zip" placeholder="우편번호" onkeyup="checkNumber();">
           </div>
           <div class="col-md-6 mb-3">
             <label for="firstName">Booker Name<span class="text-muted">(Required)</span></label>
             <%if(sessionok==null){%>
-            <input type="text" class="form-control" id="bookername" name="bookername" placeholder="예약자 이름" maxlength="20" required>
+            <input type="text" class="form-control" id="bookername" name="bookername" placeholder="예약자 이름"  onkeyup="checkNumber();" maxlength="20" required>
             <%}else{ %>
             <input type="text" class="form-control" id="bookername" name="bookername" value="<%=session.getAttribute("login_nickname")%>" maxlength="20" required readonly>
             <%} %>
@@ -179,7 +198,7 @@ $(document).ready(function(){
         <div class="row">
 	        <div class="col-md mb">
 	        <label for="firstName">Comment<span class="text-muted">(optional)</span></label>
-	        <textarea class="form-control" type="text" id="comment" name="comment" placeholder="남기고 싶은 말" maxlength="200"></textarea>
+	        <textarea class="form-control" type="text" id="comment" name="comment" placeholder="남기고 싶은 말" onkeyup="checkNumber();" maxlength="200"></textarea>
 	        </div>
         </div>
         <hr class="mb-4">

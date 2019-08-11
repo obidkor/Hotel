@@ -9,6 +9,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script>
+
+
+function checkNumber()
+{
+ var objEv = event.srcElement;
+ var num ="{}[]()<>?_|~`!@#$%^&*+\"'\\/ ";    //입력을 막을 특수문자 기재.
+ event.returnValue = true;
+  
+ for (var i=0;i<objEv.value.length;i++)
+ {
+ if(-1 != num.indexOf(objEv.value.charAt(i)))
+ event.returnValue = false;
+ }
+  
+ if (!event.returnValue)
+ {
+  alert("특수문자는 입력하실 수 없습니다.");
+  objEv.value="";
+ }
+}
 //AJAX select box
 function roomSelect(obj){
 	var $target = $("select[name='room']");
@@ -108,14 +128,14 @@ ReserveItem re = ReserveDao.getRecordOne(date, room);
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="firstName">숙박자 이름</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="" value="<%=re.getName()%>" required>
+            <input type="text" class="form-control" id="name" name="name" placeholder="" value="<%=re.getName()%>" onkeyup="checkNumber();" required>
             <div class="invalid-feedback">
               숙박자의 이름이 필요합니다.
             </div>
           </div>
           <div class="col-md-6 mb-3">
             <label for="lastName">예약자 이름</label>
-            <input type="text" class="form-control" id="bookername" name="bookername" placeholder="" value="<%=re.getIn_name() %>" required>
+            <input type="text" class="form-control" id="bookername" name="bookername" placeholder="" value="<%=re.getIn_name() %>" onkeyup="checkNumber();" required>
             <div class="invalid-feedback">
               예약자의 이름이 필요합니다.
             </div>
@@ -124,7 +144,7 @@ ReserveItem re = ReserveDao.getRecordOne(date, room);
 
         <div class="mb-3">
           <label for="address">Address</label>
-          <input type="text" class="form-control" id="address" name ="address" placeholder="" value="<%=re.getAddr() %>" maxlength="50" required>
+          <input type="text" class="form-control" id="address" name ="address" placeholder="" value="<%=re.getAddr() %>" maxlength="50" onkeyup="checkNumber();" required>
           <div class="invalid-feedback">
             주소를 적어주세요.
           </div>
@@ -132,7 +152,7 @@ ReserveItem re = ReserveDao.getRecordOne(date, room);
         
          <div class="mb-3">
           <label for="address">Address</label>
-          <input type="text" class="form-control" id="phone" name ="phone" placeholder="" value="<%=re.getTelNum() %>" maxlength="20" required>
+          <input type="text" class="form-control" id="phone" name ="phone" placeholder="" value="<%=re.getTelNum() %>" maxlength="20" onkeyup="checkNumber();" required>
           <div class="invalid-feedback">
             전화번호를 적어주세요.
           </div>
@@ -140,7 +160,7 @@ ReserveItem re = ReserveDao.getRecordOne(date, room);
         
          <div class="mb-3">
           <label for="address">Address</label>
-          <input type="text" class="form-control" id="comment" name ="comment" placeholder="" value="<%=re.getComment()%>" maxlength="100" required>
+          <input type="text" class="form-control" id="comment" name ="comment" placeholder="" value="<%=re.getComment()%>" maxlength="100" onkeyup="checkNumber();"  required>
           <div class="invalid-feedback">
             코멘트를 적어주세요.
           </div>

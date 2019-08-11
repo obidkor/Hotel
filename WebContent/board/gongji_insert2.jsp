@@ -55,6 +55,8 @@
 								//폼 파라미터(name):fileItem.getFieldName() /폼 value:fileItem.getString("UTF-8")
 	String fileNamestr = fileItem.getString("UTF-8").replaceAll(";", "&#59;");
 	fileNamestr = fileItem.getString("UTF-8").replaceAll("'", "&#39;");//특수문자처리
+	fileNamestr = fileItem.getString("UTF-8").replaceAll("<", "&#60;");
+	fileNamestr = fileItem.getString("UTF-8").replaceAll("!", "&#33;");
 	//map으로 저장할 것
 	fileMap.put(fileItem.getFieldName(), fileNamestr);
 		} else { //파일이면 이부분의 루틴을 탄다
